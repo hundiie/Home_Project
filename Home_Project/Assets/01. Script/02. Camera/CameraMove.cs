@@ -35,31 +35,32 @@ public class CameraMove : MonoBehaviour
 
     void FixedUpdate()
     {
-         
         // 타겟의 x, y, z 좌표에 카메라의 좌표를 더하여 카메라의 위치를 결정
-        TargetPos = new Vector3(
-            Target.transform.position.x + offsetX,
-            Target.transform.position.y + offsetY,
-            Target.transform.position.z + offsetZ
-            );
-
-        // 카메라 각도 변경
-        transform.rotation = Quaternion.Euler(angleX, angleY, angleZ);
-
-        //거리에 따라 속도 바꾸기
-        float Distance = Vector3.Distance(transform.position, TargetPos);
-        if (Distance >= DistanceLimit)
+        if (TargetPos != null)
         {
-            StartCoroutine(SetCameraSpeed(CameraMaxSpeed, AccelSpeed));
-        }
-        else if(CameraSpeed != saveCameraSpeed)
-        {
-            StartCoroutine(SetCameraSpeed(saveCameraSpeed, AccelSpeed));
-        }
+            TargetPos = new Vector3(
+               Target.transform.position.x + offsetX,
+               Target.transform.position.y + offsetY,
+               Target.transform.position.z + offsetZ
+               );
 
-        // 카메라의 움직임을 부드럽게 하는 함수(Lerp)
-        transform.position = Vector3.MoveTowards(transform.position, TargetPos, Time.deltaTime * CameraSpeed);
+            // 카메라 각도 변경
+            transform.rotation = Quaternion.Euler(angleX, angleY, angleZ);
 
+            //거리에 따라 속도 바꾸기
+            float Distance = Vector3.Distance(transform.position, TargetPos);
+            if (Distance >= DistanceLimit)
+            {
+                StartCoroutine(SetCameraSpeed(CameraMaxSpeed, AccelSpeed));
+            }
+            else if (CameraSpeed != saveCameraSpeed)
+            {
+                StartCoroutine(SetCameraSpeed(saveCameraSpeed, AccelSpeed));
+            }
+
+            // 카메라의 움직임을 부드럽게 하는 함수(Lerp)
+            transform.position = Vector3.MoveTowards(transform.position, TargetPos, Time.deltaTime * CameraSpeed);
+        }
     }
 
     private IEnumerator SetCameraSpeed(float Speed, float Accel)

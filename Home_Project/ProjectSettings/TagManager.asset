@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Tile
+  - Q
+  - W
+  - E
+  - R
   layers:
   - Default
   - TransparentFX

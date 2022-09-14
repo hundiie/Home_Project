@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 using UnityEngine.AI;
 
-public class PlayerMove : MonoBehaviour
+public class PlayerMove : MonoBehaviourPun
 {
     private PlayerInput _PlayerInput;
     private NavMeshAgent _NavMeshAgent;
@@ -15,20 +16,18 @@ public class PlayerMove : MonoBehaviour
     {
         _PlayerInput = GetComponent<PlayerInput>();
         _NavMeshAgent = GetComponent<NavMeshAgent>();
-
-        //Move
-        _NavMeshAgent.speed = MoveSpeed;
     }
 
     private void FixedUpdate()
     {
+        if (!photonView.IsMine){return;}
+
         if (_PlayerInput.Mouse_Right)
         {
             Vector3 Movement = GetMousePosition();
             SetMove(Movement);
         }
     }
-
 
     private void SetMove(Vector3 vector)
     {
